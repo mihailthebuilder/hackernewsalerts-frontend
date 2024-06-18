@@ -16,6 +16,8 @@ function AlertsContainer() {
 
     setAlertsReceived(undefined);
     setIsLoading(true);
+    setError(undefined);
+
     fetch(`${API_HOST}/alerts/users/${username}`, {
       method: "GET",
       headers: {
@@ -66,6 +68,20 @@ function AlertsContainer() {
           Get alerts
         </button>
       </form>
+      {error && (
+        <p className="text-red-700 font-semibold">
+          Something went wrong, error message{" "}
+          <span className="inline-block">'{error.message}'</span>. Please reach
+          out to me{" "}
+          <a
+            className="underline inline-block"
+            href="https://linkedin.com/in/mihailmarian"
+          >
+            on LinkedIn
+          </a>{" "}
+          for help.
+        </p>
+      )}
       {isLoading && <p className="font-bold">Loading...</p>}
       {alertsReceived && (
         <div className="space-y-7">
