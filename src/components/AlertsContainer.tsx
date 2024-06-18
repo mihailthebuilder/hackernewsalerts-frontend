@@ -45,16 +45,28 @@ function AlertsContainer() {
 
   return (
     <>
-      <form onSubmit={submitHandler}>
+      <form onSubmit={submitHandler} className="flex mb-5">
         <input
+          className="border border-black lowercase w-full block rounded focus:ring-cyan-800 p-2"
           type="text"
-          placeholder="HN username"
+          placeholder="type any HN username"
           onChange={(event) => setUsername(event.target.value)}
           value={username}
+          required
         />
-        <button type="submit">Get alerts</button>
+        <button
+          className={`ml-5 text-white font-bold py-2 px-4 rounded w-40 ${
+            isLoading
+              ? "bg-gray-700 hover:bg-gray-700"
+              : "bg-blue-500 hover:bg-blue-700"
+          }`}
+          type="submit"
+          disabled={isLoading}
+        >
+          Get alerts
+        </button>
       </form>
-      {isLoading && <p>Loading...</p>}
+      {isLoading && <p className="font-bold">Loading...</p>}
       {alertsReceived && (
         <>
           <Alert type="post_comments" items={alertsReceived.post_comments} />
