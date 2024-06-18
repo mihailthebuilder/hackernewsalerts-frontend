@@ -68,13 +68,13 @@ function AlertsContainer() {
       </form>
       {isLoading && <p className="font-bold">Loading...</p>}
       {alertsReceived && (
-        <>
+        <div className="space-y-7">
           <Alert type="post_comments" items={alertsReceived.post_comments} />
           <Alert
             type="comment_replies"
             items={alertsReceived.comment_replies}
           />
-        </>
+        </div>
       )}
     </>
   );
