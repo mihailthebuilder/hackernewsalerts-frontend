@@ -15,6 +15,7 @@ function AlertsContainer() {
     event.preventDefault();
 
     setAlertsReceived(undefined);
+    setIsLoading(true);
     fetch(`${API_HOST}/alerts/users/${username}`, {
       method: "GET",
       headers: {
@@ -53,6 +54,7 @@ function AlertsContainer() {
         />
         <button type="submit">Get alerts</button>
       </form>
+      {isLoading && <p>Loading...</p>}
       {alertsReceived && (
         <>
           <Alert type="post_comments" items={alertsReceived.post_comments} />
