@@ -1,9 +1,10 @@
 import { useState, type FormEvent } from "react";
 import Alert from "./Alert";
 
-const API_HOST = import.meta.env.PROD
-  ? "https://socialalerts.app.taralys.com"
-  : "http://127.0.0.1:8000";
+const API_HOST =
+  import.meta.env.REMOTE_API == "true"
+    ? "https://socialalerts.app.taralys.com"
+    : "http://127.0.0.1:8000";
 
 function AlertsContainer() {
   const [username, setUsername] = useState("");
@@ -49,10 +50,10 @@ function AlertsContainer() {
     <>
       <form onSubmit={submitHandler} className="flex mb-5">
         <input
-          className="border border-black lowercase w-full block rounded focus:ring-cyan-800 p-2"
+          className="border border-black w-full block rounded focus:ring-cyan-800 p-2"
           type="text"
           placeholder="type any HN username"
-          onChange={(event) => setUsername(event.target.value)}
+          onChange={(event) => setUsername(event.target.value.toLowerCase())}
           value={username}
           required
         />
