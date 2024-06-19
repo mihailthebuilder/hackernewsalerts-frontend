@@ -1,5 +1,6 @@
 ---
 import AlertsContainer from "../components/AlertsContainer";
+import UsernameInUrlNotifier from "../components/UsernameInUrlNotifier";
 
 const title = "Hacker News Alerts";
 ---
@@ -36,6 +37,7 @@ const title = "Hacker News Alerts";
           </p>
         </section>
         <section>
+          <UsernameInUrlNotifier client:only="react" />
           <AlertsContainer client:load />
         </section>
       </main>

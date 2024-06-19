@@ -1,5 +1,8 @@
-import { useState, type FormEvent } from "react";
+import { useState, useEffect, type FormEvent } from "react";
 import Alert from "./Alert";
+
+import { useStore } from "@nanostores/react";
+import { usernameInUrlStore } from "../usernameInUrlStore";
 
 const API_HOST = "https://socialalerts.app.taralys.com";
 // const API_HOST = "http://127.0.0.1:8000";
@@ -22,6 +25,15 @@ function AlertsContainer() {
   const [apiResponseState, setApiResponseState] = useState(
     ApiResponseState.Initial
   );
+
+  const $usernameInUrlStore = useStore(usernameInUrlStore);
+
+  useEffect(() => {
+    if ($usernameInUrlStore.length > 0) {
+      const newUsername = $usernameInUrlStore.toLowerCase();
+      setUsername(newUsername);
+    }
+  }, [$usernameInUrlStore]);
 
   const submitHandler = (event: FormEvent) => {
     event.preventDefault();
