@@ -1,5 +1,6 @@
 import { useState, useEffect, type FormEvent } from "react";
 import Alert from "./Alert";
+import Copy from "./Copy";
 
 import { useStore } from "@nanostores/react";
 import { usernameInUrlStore } from "../usernameInUrlStore";
@@ -15,7 +16,7 @@ enum ApiResponseState {
   Error,
 }
 
-function AlertsContainer() {
+function AlertsContainer({ url }: { url: string }) {
   const [username, setUsername] = useState("");
   const [alertsReceived, setAlertsReceived] = useState<Alerts>({
     comment_replies: [],
@@ -74,6 +75,8 @@ function AlertsContainer() {
     fetchAlertsForUsername(username);
   };
 
+  const urlToCopy = `${url}?username=${username}`;
+
   return (
     <>
       <form onSubmit={submitHandler} className="flex mb-5">
@@ -97,7 +100,7 @@ function AlertsContainer() {
           Get alerts
         </button>
       </form>
-      {apiResponseOutput(apiResponseState, apiError, alertsReceived)}
+      {apiResponseOutput(apiResponseState, apiError, alertsReceived, urlToCopy)}
     </>
   );
 }
@@ -105,8 +108,21 @@ function AlertsContainer() {
 const apiResponseOutput = (
   state: ApiResponseState,
   error: Error,
-  alertsReceived: Alerts
+  alertsReceived: Alerts,
+  urlToCopy: string
 ) => {
+  const createCopyToClipboardFunction = (
+    text: string
+  ): (() => Promise<void>) => {
+    return async () => {
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch (err) {
+        console.error("Failed to copy to clipboard:", err);
+      }
+    };
+  };
+
   switch (state) {
     case ApiResponseState.IsLoading:
       return <p className="font-bold">Loading...</p>;
@@ -130,6 +146,9 @@ const apiResponseOutput = (
     case ApiResponseState.DataReceived:
       return (
         <div className="space-y-7">
+          <Copy onClick={createCopyToClipboardFunction(urlToCopy)}>
+            <span className="underline">Copy Link</span>
+          </Copy>
           <Alert type="post_comments" items={alertsReceived.post_comments} />
           <Alert
             type="comment_replies"
