@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 
-const CopyIcon = ({
+const Copy = ({
   onClick,
   children,
 }: {
@@ -35,4 +35,4 @@ const CopyIcon = ({
     </button>
   );
 };
-export default CopyIcon;
+export default Copy;
