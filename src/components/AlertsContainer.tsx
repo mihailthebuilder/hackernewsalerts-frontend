@@ -28,16 +28,7 @@ function AlertsContainer() {
 
   const $usernameInUrlStore = useStore(usernameInUrlStore);
 
-  useEffect(() => {
-    if ($usernameInUrlStore.length > 0) {
-      const newUsername = $usernameInUrlStore.toLowerCase();
-      setUsername(newUsername);
-    }
-  }, [$usernameInUrlStore]);
-
-  const submitHandler = (event: FormEvent) => {
-    event.preventDefault();
-
+  const fetchAlertsForUsername = (username: string) => {
     setApiResponseState(ApiResponseState.IsLoading);
 
     fetch(`${API_HOST}/alerts/users/${username}`, {
@@ -68,6 +59,19 @@ function AlertsContainer() {
         setApiResponseState(ApiResponseState.Error);
         setApiError(error);
       });
+  };
+
+  useEffect(() => {
+    if ($usernameInUrlStore.length > 0) {
+      const newUsername = $usernameInUrlStore.toLowerCase();
+      setUsername(newUsername);
+      fetchAlertsForUsername(newUsername);
+    }
+  }, [$usernameInUrlStore]);
+
+  const submitHandler = (event: FormEvent) => {
+    event.preventDefault();
+    fetchAlertsForUsername(username);
   };
 
   return (
