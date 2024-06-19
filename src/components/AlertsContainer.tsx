@@ -1,10 +1,8 @@
 import { useState, type FormEvent } from "react";
 import Alert from "./Alert";
 
-const API_HOST =
-  import.meta.env.REMOTE_API == "true"
-    ? "https://socialalerts.app.taralys.com"
-    : "http://127.0.0.1:8000";
+const API_HOST = "https://socialalerts.app.taralys.com";
+// const API_HOST = "http://127.0.0.1:8000";
 
 enum ApiResponseState {
   Initial,
