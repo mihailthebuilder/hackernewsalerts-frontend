@@ -38,6 +38,18 @@ const image = "/favicon.svg";
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={new URL(image, Astro.url)} />
+
+    <!-- Analytics -->
+    {
+      import.meta.env.PROD && (
+        <script
+          is:inline
+          defer
+          src="https://um.app.taralys.com/hi"
+          data-website-id="c607fc96-0115-43e9-b764-ab9f5d73911c"
+        />
+      )
+    }
   </head>
   <body>
     <body class="bg-neutral-100">
