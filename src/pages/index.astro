@@ -74,9 +74,23 @@ const image = "/favicon.svg";
             hours.
           </p>
         </section>
-        <section>
+        <section class="mb-6">
           <UsernameInUrlNotifier client:only="react" />
           <AlertsContainer client:load url={Astro.url.toString()} />
+        </section>
+        <section>
+          <h2 class="text-2xl font-bold mb-3">Contact</h2>
+          <p>
+            Have questions/feedback? I'm <a
+              href="https://www.linkedin.com/in/mihailmarian/"
+              class="underline"
+              target="_blank">on LinkedIn</a
+            > (plz add a message to your connection request), or use <a
+              href="https://forms.gle/z5ysJvd8ZjoG7V668"
+              class="underline"
+              target="_blank">this hideous contact form</a
+            >.
+          </p>
         </section>
       </main>
     </body>
