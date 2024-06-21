@@ -92,7 +92,7 @@ function AlertsContainer({ url }: { url: string }) {
           className={`ml-5 text-white font-bold py-2 px-4 rounded w-40 ${
             apiResponseState === ApiResponseState.IsLoading
               ? "bg-gray-700 hover:bg-gray-700"
-              : "bg-blue-500 hover:bg-blue-700"
+              : "bg-blue-700 hover:bg-blue-900"
           }`}
           type="submit"
           disabled={apiResponseState === ApiResponseState.IsLoading}
