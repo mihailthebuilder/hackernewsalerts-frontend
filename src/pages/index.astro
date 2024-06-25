@@ -54,25 +54,15 @@ const image = "/favicon.svg";
   <body>
     <body class="bg-neutral-100">
       <main class="mx-auto max-w-prose px-5 md:px-0 md:py-3 mt-3 mb-12">
-        <section class="mb-3 md:mb-6">
-          <h1 class="text-[1.4rem] md:text-3xl font-bold">
-            Instant alerts for <span class="inline-block">Hacker News</span>
+        <section class="mb-3 md:mb-6 space-y-3">
+          <h1 class="text-[1.4rem] md:text-3xl font-bold leading-tight">
+            Email alerts for <span class="inline-block">Hacker News</span>
             comments and replies
           </h1>
-        </section>
-        <section class="mb-6 space-y-3">
-          <p>
-            This is the alpha version of a service that will send email alerts
-            whenever someone either...
-          </p>
-          <ol class="list-[lower-alpha] ml-4">
-            <li>Replies to a comment you've made on Hacker News, or...</li>
-            <li>Adds a comment to a post you've made on the platform</li>
-          </ol>
-          <p>
-            Right now, the website shows you these alerts here, over the last 24
-            hours.
-          </p>
+          <h2>
+            Get email notifications when someone replies to one of your comments
+            or posts on <span class="inline-block">Hacker News</span>.
+          </h2>
         </section>
         <section class="mb-6">
           <UsernameInUrlNotifier client:only="react" />
