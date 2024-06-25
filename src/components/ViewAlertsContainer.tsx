@@ -1,5 +1,5 @@
 import { useState, useEffect, type FormEvent } from "react";
-import Alert from "./Alert";
+import ViewAlert from "./ViewAlert";
 import Copy from "./Copy";
 
 import { useStore } from "@nanostores/react";
@@ -149,8 +149,11 @@ const apiResponseOutput = (
           <Copy onClick={createCopyToClipboardFunction(urlToCopy)}>
             <span className="underline">Copy Link</span>
           </Copy>
-          <Alert type="post_comments" items={alertsReceived.post_comments} />
-          <Alert
+          <ViewAlert
+            type="post_comments"
+            items={alertsReceived.post_comments}
+          />
+          <ViewAlert
             type="comment_replies"
             items={alertsReceived.comment_replies}
           />

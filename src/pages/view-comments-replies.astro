@@ -1,5 +1,5 @@
 ---
-import AlertsContainer from "../components/AlertsContainer";
+import ViewAlertsContainer from "../components/ViewAlertsContainer";
 import UsernameInUrlNotifier from "../components/UsernameInUrlNotifier";
 
 const title = "See all comments and replies on Hacker News.";
@@ -71,7 +71,7 @@ const image = "/favicon.svg";
             over the past 24 hours.
           </p>
           <UsernameInUrlNotifier client:only="react" />
-          <AlertsContainer client:load url={Astro.url.toString()} />
+          <ViewAlertsContainer client:load url={Astro.url.toString()} />
         </section>
         <section>
           <h2 class="text-2xl font-bold mb-3">Contact</h2>
