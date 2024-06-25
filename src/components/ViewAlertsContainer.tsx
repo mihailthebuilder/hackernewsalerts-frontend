@@ -3,7 +3,7 @@ import ViewAlert from "./ViewAlert";
 import Copy from "./Copy";
 
 import { useStore } from "@nanostores/react";
-import { usernameInUrlStore } from "../usernameInUrlStore";
+import { usernameInUrlStore } from "./usernameInUrlStore";
 import FormErrorMessage from "./FormErrorMessage";
 
 enum ApiResponseState {
