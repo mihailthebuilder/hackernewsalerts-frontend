@@ -33,7 +33,6 @@ function AlertsContainer({ url }: { url: string }) {
     fetch(`${import.meta.env.PUBLIC_API_ENDPOINT}/alerts/users/${username}`, {
       method: "GET",
       headers: {
-        "Content-Type": "text/plain",
         Accept: "application/json",
       },
     })
