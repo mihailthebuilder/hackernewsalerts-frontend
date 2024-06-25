@@ -4,6 +4,7 @@ import Copy from "./Copy";
 
 import { useStore } from "@nanostores/react";
 import { usernameInUrlStore } from "../usernameInUrlStore";
+import FormErrorMessage from "./FormErrorMessage";
 
 enum ApiResponseState {
   Initial,
@@ -126,20 +127,7 @@ const apiResponseOutput = (
     case ApiResponseState.UsernameNotFound:
       return <p className="text-red-700 font-semibold">Username not found</p>;
     case ApiResponseState.Error:
-      return (
-        <p className="text-red-700 font-semibold">
-          Something went wrong, error message{" "}
-          <span className="inline-block">'{error.message}'</span>. Please reach
-          out to me{" "}
-          <a
-            className="underline inline-block"
-            href="https://linkedin.com/in/mihailmarian"
-          >
-            on LinkedIn
-          </a>{" "}
-          for help.
-        </p>
-      );
+      return <FormErrorMessage error={error} />;
     case ApiResponseState.DataReceived:
       return (
         <div className="space-y-7">
