@@ -47,6 +47,15 @@ export default function SetAlert() {
       });
   };
 
+  if (apiResponseState == ApiResponseState.Success) {
+    return (
+      <p className="font-bold text-green-700">
+        Thanks for signing up! You should receive a verification link via email
+        (check spam). Open the link to start receiving the alerts.
+      </p>
+    );
+  }
+
   return (
     <form onSubmit={submitHandler} className="space-y-3">
       <input
