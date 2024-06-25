@@ -1,4 +1,4 @@
-import { usernameInUrlStore } from "../usernameInUrlStore";
+import { usernameInUrlStore } from "./usernameInUrlStore";
 
 export default function UsernameInUrlNotifier() {
   const urlSearchParams = new URLSearchParams(window.location.search);
