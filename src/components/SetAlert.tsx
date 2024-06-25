@@ -33,9 +33,9 @@ export default function SetAlert() {
           return;
         }
 
-        if (response.status != 200) {
+        if (response.status != 201) {
           throw Error(
-            `Expected response status 200, got ${response.status}: ${response.statusText}`
+            `Expected response status 201, got ${response.status}: ${response.statusText}`
           );
         }
 
