@@ -6,6 +6,7 @@ enum ApiResponseState {
   IsLoading,
   Success,
   UsernameNotFound,
+  AlertAlreadyCreatedForUsername,
   Error,
 }
 
@@ -30,18 +31,34 @@ export default function SetAlert() {
       body: JSON.stringify({ hn_username: username, email: email }),
     })
       .then((response) => {
-        if (response.status == 404) {
-          setApiResponseState(ApiResponseState.UsernameNotFound);
+        if (response.status == 201) {
+          setApiResponseState(ApiResponseState.Success);
           return;
         }
 
-        if (response.status != 201) {
-          throw Error(
-            `Expected response status 201, got ${response.status}: ${response.statusText}`
-          );
+        if (response.status == 400) {
+          return response.text().then((body) => {
+            if (body == "alert already set up for HN username") {
+              setApiResponseState(
+                ApiResponseState.AlertAlreadyCreatedForUsername
+              );
+              return;
+            }
+
+            if (body == "username does not exist in HN") {
+              setApiResponseState(ApiResponseState.UsernameNotFound);
+              return;
+            }
+
+            throw Error(`Got response 400 with unexpected body: ${body}`);
+          });
         }
 
-        setApiResponseState(ApiResponseState.Success);
+        return response.text().then((body) => {
+          throw Error(
+            `Expected response status 201, got ${response.status}: ${response.statusText}. Error message: ${body}`
+          );
+        });
       })
       .catch((error: Error) => {
         setApiResponseState(ApiResponseState.Error);
@@ -100,6 +117,12 @@ const apiNonSuccessOutput = (state: ApiResponseState, error: Error) => {
       return <p className="font-bold">Loading...</p>;
     case ApiResponseState.UsernameNotFound:
       return <p className="text-red-700 font-semibold">Username not found</p>;
+    case ApiResponseState.AlertAlreadyCreatedForUsername:
+      return (
+        <p className="text-red-700 font-semibold">
+          Alert already created for username
+        </p>
+      );
     case ApiResponseState.Error:
       return <FormErrorMessage error={error} />;
     default:
