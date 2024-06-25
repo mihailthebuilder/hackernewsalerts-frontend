@@ -54,11 +54,9 @@ export default function SetAlert() {
           });
         }
 
-        return response.text().then((body) => {
-          throw Error(
-            `Expected response status 201, got ${response.status}: ${response.statusText}. Error message: ${body}`
-          );
-        });
+        throw Error(
+          `Expected response status 201, got ${response.status}: ${response.statusText}.`
+        );
       })
       .catch((error: Error) => {
         setApiResponseState(ApiResponseState.Error);
@@ -116,11 +114,15 @@ const apiNonSuccessOutput = (state: ApiResponseState, error: Error) => {
     case ApiResponseState.IsLoading:
       return <p className="font-bold">Loading...</p>;
     case ApiResponseState.UsernameNotFound:
-      return <p className="text-red-700 font-semibold">Username not found</p>;
+      return (
+        <p className="text-red-700 font-semibold">
+          Hacker News username not found
+        </p>
+      );
     case ApiResponseState.AlertAlreadyCreatedForUsername:
       return (
         <p className="text-red-700 font-semibold">
-          Alert already created for username
+          Alert already created for Hacker News username
         </p>
       );
     case ApiResponseState.Error:
