@@ -8,9 +8,6 @@ enum ApiResponseState {
   Error,
 }
 
-const API_HOST = "https://socialalerts.app.taralys.com";
-// const API_HOST = "http://127.0.0.1:8000";
-
 export default function SetAlert() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -23,8 +20,8 @@ export default function SetAlert() {
     event.preventDefault();
     setApiResponseState(ApiResponseState.IsLoading);
 
-    fetch(`${API_HOST}/alerts/users/${username}`, {
-      method: "GET",
+    fetch(`${import.meta.env.PUBLIC_API_ENDPOINT}/alerts/users/${username}`, {
+      method: "POST",
       headers: {
         "Content-Type": "text/plain",
         Accept: "application/json",

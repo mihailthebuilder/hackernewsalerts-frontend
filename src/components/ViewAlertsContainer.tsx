@@ -5,9 +5,6 @@ import Copy from "./Copy";
 import { useStore } from "@nanostores/react";
 import { usernameInUrlStore } from "../usernameInUrlStore";
 
-const API_HOST = "https://socialalerts.app.taralys.com";
-// const API_HOST = "http://127.0.0.1:8000";
-
 enum ApiResponseState {
   Initial,
   IsLoading,
@@ -32,7 +29,7 @@ function AlertsContainer({ url }: { url: string }) {
   const fetchAlertsForUsername = (username: string) => {
     setApiResponseState(ApiResponseState.IsLoading);
 
-    fetch(`${API_HOST}/alerts/users/${username}`, {
+    fetch(`${import.meta.env.PUBLIC_API_ENDPOINT}/alerts/users/${username}`, {
       method: "GET",
       headers: {
         "Content-Type": "text/plain",
