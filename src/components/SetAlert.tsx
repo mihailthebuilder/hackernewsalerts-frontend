@@ -21,12 +21,13 @@ export default function SetAlert() {
     event.preventDefault();
     setApiResponseState(ApiResponseState.IsLoading);
 
-    fetch(`${import.meta.env.PUBLIC_API_ENDPOINT}/alerts/users/${username}`, {
+    fetch(`${import.meta.env.PUBLIC_API_ENDPOINT}/alerts/users`, {
       method: "POST",
       headers: {
         "Content-Type": "text/plain",
         Accept: "application/json",
       },
+      body: JSON.stringify({ hn_username: username, email: email }),
     })
       .then((response) => {
         if (response.status == 404) {
