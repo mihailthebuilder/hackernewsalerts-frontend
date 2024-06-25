@@ -80,7 +80,7 @@ export default function SetAlert() {
           className="border border-black w-full block rounded focus:ring-cyan-800 p-2 col-span-6"
           type="text"
           placeholder="HN username"
-          onChange={(event) => setUsername(event.target.value.toLowerCase())}
+          onChange={(event) => setUsername(event.target.value)}
           value={username}
           required
         />
