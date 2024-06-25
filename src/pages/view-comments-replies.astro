@@ -1,6 +1,7 @@
 ---
 import ViewAlertsContainer from "../components/ViewAlertsContainer";
 import UsernameInUrlNotifier from "../components/UsernameInUrlNotifier";
+import Contact from "../components/Contact.astro";
 
 const title = "See all comments and replies on Hacker News.";
 const description =
@@ -73,20 +74,7 @@ const image = "/favicon.svg";
           <UsernameInUrlNotifier client:only="react" />
           <ViewAlertsContainer client:load url={Astro.url.toString()} />
         </section>
-        <section>
-          <h2 class="text-2xl font-bold mb-3">Contact</h2>
-          <p>
-            Have questions/feedback? I'm <a
-              href="https://www.linkedin.com/in/mihailmarian/"
-              class="underline"
-              target="_blank">on LinkedIn</a
-            > (plz add a message to your connection request), or use <a
-              href="https://forms.gle/z5ysJvd8ZjoG7V668"
-              class="underline"
-              target="_blank">this hideous contact form</a
-            >.
-          </p>
-        </section>
+        <Contact />
       </main>
     </body>
   </body>
