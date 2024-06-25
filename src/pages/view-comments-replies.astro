@@ -5,7 +5,7 @@ import Contact from "../components/Contact.astro";
 
 const title = "See all comments and replies on Hacker News.";
 const description =
-  "View your post comments and comment replies on Hacker News, all in one page.";
+  "View post comments and comment replies that you've received on Hacker News, all in one page.";
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const image = "/favicon.svg";
 ---
@@ -57,20 +57,17 @@ const image = "/favicon.svg";
       <main class="mx-auto max-w-prose px-5 md:px-0 md:py-3 mt-3 mb-12">
         <section class="mb-3 md:mb-6 space-y-3">
           <h1 class="text-[1.4rem] md:text-3xl font-bold leading-tight">
-            Email alerts for <span class="inline-block">Hacker News</span>
-            comments and replies
+            View comments and replies you received on <span class="inline-block"
+              >Hacker News</span
+            >
           </h1>
           <h2>
-            Get email notifications when someone replies to one of your comments
-            or posts on <span class="inline-block">Hacker News</span>.
+            An online tool that lets you view all the comments and replies
+            you've received over the past 24 hours on Hacker News. No need to
+            input your email.
           </h2>
         </section>
         <section class="mb-6">
-          <p class="mb-4">
-            Don't want to provide your email? Click here to go to our online
-            tool that lets you view all the comments and replies you've received
-            over the past 24 hours.
-          </p>
           <UsernameInUrlNotifier client:only="react" />
           <ViewAlertsContainer client:load url={Astro.url.toString()} />
         </section>
