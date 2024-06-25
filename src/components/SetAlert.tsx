@@ -18,50 +18,51 @@ export default function SetAlert() {
   );
   const [apiError, setApiError] = useState<Error>(new Error());
 
-  const submitHandler = (event: FormEvent) => {
+  const submitHandler = async (event: FormEvent) => {
     event.preventDefault();
     setApiResponseState(ApiResponseState.IsLoading);
 
-    fetch(`${import.meta.env.PUBLIC_API_ENDPOINT}/alerts/users`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "text/plain",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({ hn_username: username, email: email }),
-    })
-      .then((response) => {
-        if (response.status == 201) {
-          setApiResponseState(ApiResponseState.Success);
+    try {
+      const response = await fetch(
+        `${import.meta.env.PUBLIC_API_ENDPOINT}/alerts/users`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({ hn_username: username, email: email }),
+        }
+      );
+
+      if (response.status == 201) {
+        setApiResponseState(ApiResponseState.Success);
+        return;
+      }
+
+      if (response.status == 400) {
+        const body = await response.text();
+
+        if (body == "alert already set up for HN username") {
+          setApiResponseState(ApiResponseState.AlertAlreadyCreatedForUsername);
           return;
         }
 
-        if (response.status == 400) {
-          return response.text().then((body) => {
-            if (body == "alert already set up for HN username") {
-              setApiResponseState(
-                ApiResponseState.AlertAlreadyCreatedForUsername
-              );
-              return;
-            }
-
-            if (body == "username does not exist in HN") {
-              setApiResponseState(ApiResponseState.UsernameNotFound);
-              return;
-            }
-
-            throw Error(`Got response 400 with unexpected body: ${body}`);
-          });
+        if (body == "username does not exist in HN") {
+          setApiResponseState(ApiResponseState.UsernameNotFound);
+          return;
         }
 
-        throw Error(
-          `Expected response status 201, got ${response.status}: ${response.statusText}.`
-        );
-      })
-      .catch((error: Error) => {
-        setApiResponseState(ApiResponseState.Error);
-        setApiError(error);
-      });
+        throw Error(`Got response 400 with unexpected body: ${body}`);
+      }
+
+      throw Error(
+        `Unexpected response ${response.status}: ${response.statusText}.`
+      );
+    } catch (error) {
+      setApiResponseState(ApiResponseState.Error);
+      setApiError(error as Error);
+    }
   };
 
   if (apiResponseState == ApiResponseState.Success) {
