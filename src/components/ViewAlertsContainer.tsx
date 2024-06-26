@@ -4,6 +4,7 @@ import Copy from "./Copy";
 
 import { useStore } from "@nanostores/react";
 import { usernameInUrlStore } from "./usernameInUrlStore";
+import { hnUsernameExists } from "./hnUsernameExists";
 import FormErrorMessage from "./FormErrorMessage";
 
 enum ApiResponseState {
@@ -29,6 +30,13 @@ function AlertsContainer({ url }: { url: string }) {
 
   const fetchAlertsForUsername = async (username: string) => {
     try {
+      const usernameExists = await hnUsernameExists(username);
+
+      if (!usernameExists) {
+        setApiResponseState(ApiResponseState.UsernameNotFound);
+        return;
+      }
+
       setApiResponseState(ApiResponseState.IsLoading);
 
       const response = await fetch(
@@ -127,7 +135,11 @@ const apiResponseOutput = (
     case ApiResponseState.IsLoading:
       return <p className="font-bold">Loading...</p>;
     case ApiResponseState.UsernameNotFound:
-      return <p className="text-red-700 font-semibold">Username not found</p>;
+      return (
+        <p className="text-red-700 font-semibold">
+          Hacker News username not found
+        </p>
+      );
     case ApiResponseState.Error:
       return <FormErrorMessage error={error} />;
     case ApiResponseState.DataReceived:
