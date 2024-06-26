@@ -27,36 +27,39 @@ function AlertsContainer({ url }: { url: string }) {
 
   const $usernameInUrlStore = useStore(usernameInUrlStore);
 
-  const fetchAlertsForUsername = (username: string) => {
-    setApiResponseState(ApiResponseState.IsLoading);
+  const fetchAlertsForUsername = async (username: string) => {
+    try {
+      setApiResponseState(ApiResponseState.IsLoading);
 
-    fetch(`${import.meta.env.PUBLIC_API_ENDPOINT}/alerts/users/${username}`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-      },
-    })
-      .then((response) => {
-        if (response.status == 404) {
-          setApiResponseState(ApiResponseState.UsernameNotFound);
-          return;
+      const response = await fetch(
+        `${import.meta.env.PUBLIC_API_ENDPOINT}/alerts/users/${username}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+          },
         }
+      );
 
-        if (response.status != 200) {
-          throw Error(
-            `Expected response status 200, got ${response.status}: ${response.statusText}`
-          );
-        }
+      if (response.status == 404) {
+        setApiResponseState(ApiResponseState.UsernameNotFound);
+        return;
+      }
 
-        response.json().then((data: Alerts) => {
-          setApiResponseState(ApiResponseState.DataReceived);
-          setAlertsReceived(data);
-        });
-      })
-      .catch((error: Error) => {
-        setApiResponseState(ApiResponseState.Error);
-        setApiError(error);
-      });
+      if (response.status != 200) {
+        throw Error(
+          `Expected response status 200, got ${response.status}: ${response.statusText}`
+        );
+      }
+
+      const data = await response.json();
+
+      setApiResponseState(ApiResponseState.DataReceived);
+      setAlertsReceived(data);
+    } catch (error) {
+      setApiResponseState(ApiResponseState.Error);
+      setApiError(error as Error);
+    }
   };
 
   useEffect(() => {
