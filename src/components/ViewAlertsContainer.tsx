@@ -49,11 +49,6 @@ function AlertsContainer({ url }: { url: string }) {
         }
       );
 
-      if (response.status == 404) {
-        setApiResponseState(ApiResponseState.UsernameNotFound);
-        return;
-      }
-
       if (response.status != 200) {
         throw Error(
           `Expected response status 200, got ${response.status}: ${response.statusText}`
