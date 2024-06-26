@@ -9,13 +9,13 @@ export const hnUsernameExists = async (username: string) => {
     }
   );
 
+  const body = await response.text();
+
   if (response.status != 200) {
     throw Error(
-      `Expected response status 200, got ${response.status}: ${response.statusText}`
+      `Can't verify username; got status ${response.status}: ${response.statusText}. Message: ${body}`
     );
   }
-
-  const body = await response.text();
 
   return body == "null";
 };
