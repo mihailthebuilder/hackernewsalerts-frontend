@@ -23,7 +23,30 @@ export default function SetAlert() {
     setApiResponseState(ApiResponseState.IsLoading);
 
     try {
-      const response = await fetch(
+      const checkUserApiResponse = await fetch(
+        `https://hacker-news.firebaseio.com/v0/user/${username}.json`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+          },
+        }
+      );
+
+      const checkUserApiResponseBody = await checkUserApiResponse.text();
+
+      if (checkUserApiResponse.status != 200) {
+        throw Error(
+          `Can't verify username; got status ${checkUserApiResponse.status}: ${checkUserApiResponse.statusText}. Message: ${checkUserApiResponseBody}`
+        );
+      }
+
+      if (checkUserApiResponseBody == "null") {
+        setApiResponseState(ApiResponseState.UsernameNotFound);
+        return;
+      }
+
+      const alertsApiResponse = await fetch(
         `${import.meta.env.PUBLIC_API_ENDPOINT}/alerts/users`,
         {
           method: "POST",
@@ -35,29 +58,31 @@ export default function SetAlert() {
         }
       );
 
-      if (response.status == 201) {
+      if (alertsApiResponse.status == 201) {
         setApiResponseState(ApiResponseState.Success);
         return;
       }
 
-      if (response.status == 400) {
-        const body = await response.text();
+      if (alertsApiResponse.status == 400) {
+        const alertsApiResponseBody = await alertsApiResponse.text();
 
-        if (body == "alert already set up for HN username") {
+        if (alertsApiResponseBody == "alert already set up for HN username") {
           setApiResponseState(ApiResponseState.AlertAlreadyCreatedForUsername);
           return;
         }
 
-        if (body == "username does not exist in HN") {
+        if (alertsApiResponseBody == "username does not exist in HN") {
           setApiResponseState(ApiResponseState.UsernameNotFound);
           return;
         }
 
-        throw Error(`Got response 400 with unexpected body: ${body}`);
+        throw Error(
+          `Got response 400 with unexpected body: ${alertsApiResponseBody}`
+        );
       }
 
       throw Error(
-        `Unexpected response ${response.status}: ${response.statusText}.`
+        `Unexpected response ${alertsApiResponse.status}: ${alertsApiResponse.statusText}.`
       );
     } catch (error) {
       setApiResponseState(ApiResponseState.Error);
