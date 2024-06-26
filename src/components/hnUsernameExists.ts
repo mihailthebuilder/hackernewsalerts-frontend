@@ -17,5 +17,5 @@ export const hnUsernameExists = async (username: string) => {
     );
   }
 
-  return body == "null";
+  return body != "null";
 };
