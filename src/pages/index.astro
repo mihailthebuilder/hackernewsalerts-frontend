@@ -65,6 +65,43 @@ const image = "/favicon.svg";
           </h2>
         </section>
         <section class="mb-6">
+          <div class="mb-6">
+            <script>
+              const urlParams = new URLSearchParams(window.location.search);
+              const code = urlParams.get("verificationCode");
+              if (code) {
+                async function confirmEmail(verificationCode: string) {
+                  const response = await fetch(
+                    `${import.meta.env.PUBLIC_API_ENDPOINT}/verify/${verificationCode}`,
+                    { method: "POST" }
+                  );
+
+                  if (response.ok) {
+                    document
+                      .getElementById("emailVerificationSuccess")
+                      ?.classList.remove("hidden");
+
+                    return;
+                  }
+
+                  document
+                    .getElementById("emailVerificationFail")
+                    ?.classList.remove("hidden");
+                }
+
+                confirmEmail(code);
+              }
+            </script>
+            <p
+              id="emailVerificationSuccess"
+              class="font-bold text-green-700 hidden"
+            >
+              Email verified! You'll now be receiving the alerts.
+            </p>
+            <p id="emailVerificationFail" class="font-bold text-red-700 hidden">
+              Couldn't verify your email.
+            </p>
+          </div>
           <SetAlert client:load />
         </section>
         <section class="mb-6">
