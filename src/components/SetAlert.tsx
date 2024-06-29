@@ -32,7 +32,7 @@ export default function SetAlert() {
       }
 
       const response = await fetch(
-        `${import.meta.env.PUBLIC_API_ENDPOINT}/alerts/users`,
+        `${import.meta.env.PUBLIC_API_ENDPOINT}/signup`,
         {
           method: "POST",
           headers: {

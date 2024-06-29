@@ -40,7 +40,7 @@ function AlertsContainer({ url }: { url: string }) {
       setApiResponseState(ApiResponseState.IsLoading);
 
       const response = await fetch(
-        `${import.meta.env.PUBLIC_API_ENDPOINT}/alerts/users/${username}`,
+        `${import.meta.env.PUBLIC_API_ENDPOINT}/alerts/${username}`,
         {
           method: "GET",
           headers: {
