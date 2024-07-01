@@ -30,14 +30,14 @@ function AlertsContainer({ url }: { url: string }) {
 
   const fetchAlertsForUsername = async (username: string) => {
     try {
+      setApiResponseState(ApiResponseState.IsLoading);
+
       const usernameExists = await hnUsernameExists(username);
 
       if (!usernameExists) {
         setApiResponseState(ApiResponseState.UsernameNotFound);
         return;
       }
-
-      setApiResponseState(ApiResponseState.IsLoading);
 
       const response = await fetch(
         `${import.meta.env.PUBLIC_API_ENDPOINT}/alerts/${username}`,
