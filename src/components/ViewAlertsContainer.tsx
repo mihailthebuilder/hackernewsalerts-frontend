@@ -95,7 +95,7 @@ function AlertsContainer({ url }: { url: string }) {
           type="submit"
           disabled={apiResponseState === ApiResponseState.IsLoading}
         >
-          Get alerts
+          View
         </button>
       </form>
       {apiResponseOutput(apiResponseState, apiError, alertsReceived, urlToCopy)}
