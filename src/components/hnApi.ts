@@ -18,20 +18,28 @@ type GetNewPostCommentsResult = {
   items: HnItem[];
 };
 
-async function getNewCommentReplies(
+export async function getNewCommentReplies(
   username: string,
   oldestDateConsidered: Date
 ): Promise<HnItem[]> {
   const repliesUrl = `https://hnrss.org/replies.jsonfeed?id=${username}`;
   const response = await fetch(repliesUrl);
+
+  if (!response.ok) {
+    throw Error(
+      `fetch HN replies error: expected status ok, got ${response.status}: ${response.statusText}`
+    );
+  }
+
   const repliesResponseJson = await response.json();
-  const replies = repliesResponseJson.items.map((reply: any) => ({
+
+  const replies: HnItem[] = repliesResponseJson.items.map((reply: any) => ({
     ...reply,
     date_published: new Date(reply.date_published),
   }));
 
   const filteredReplies = replies.filter(
-    (reply: HnItem) =>
+    (reply) =>
       reply.author.name !== username &&
       reply.date_published > oldestDateConsidered
   );
@@ -39,12 +47,19 @@ async function getNewCommentReplies(
   return filteredReplies;
 }
 
-async function getNewPostComments(
+export async function getNewPostComments(
   username: string,
   oldestDateConsidered: Date
 ): Promise<GetNewPostCommentsResult> {
   const postsUrl = `https://hnrss.org/submitted.jsonfeed?id=${username}`;
   const response = await fetch(postsUrl);
+
+  if (!response.ok) {
+    throw Error(
+      `fetch HN submitted error: expected status ok, got ${response.status}: ${response.statusText}`
+    );
+  }
+
   const postsResponseJson = await response.json();
   const result: GetNewPostCommentsResult = { user_found: false, items: [] };
 
@@ -54,7 +69,7 @@ async function getNewPostComments(
 
   result.user_found = true;
 
-  const posts = postsResponseJson.items.map((post: any) => ({
+  const posts: HnItem[] = postsResponseJson.items.map((post: HnItem) => ({
     ...post,
     date_published: new Date(post.date_published),
   }));
@@ -68,23 +83,29 @@ async function getNewPostComments(
     const parsedUrl = new URL(post.external_url);
     const postId = parsedUrl.searchParams.get("id");
 
-    if (!postId) continue;
-
     const commentsUrl = `https://hnrss.org/item.jsonfeed?id=${postId}`;
     const commentsResponse = await fetch(commentsUrl);
+    if (!response.ok) {
+      throw Error(
+        `fetch HN comments error: expected status ok, got ${response.status}: ${response.statusText}`
+      );
+    }
+
     const commentsResponseJson = await commentsResponse.json();
 
-    if (!commentsResponseJson || !commentsResponseJson.items) {
+    if (!commentsResponseJson.items) {
       continue;
     }
 
-    const comments = commentsResponseJson.items.map((comment: any) => ({
-      ...comment,
-      date_published: new Date(comment.date_published),
-    }));
+    const comments: HnItem[] = commentsResponseJson.items.map(
+      (comment: HnItem) => ({
+        ...comment,
+        date_published: new Date(comment.date_published),
+      })
+    );
 
     const filteredComments = comments.filter(
-      (comment: HnItem) =>
+      (comment) =>
         comment.author.name !== username &&
         comment.date_published > oldestDateConsidered
     );
