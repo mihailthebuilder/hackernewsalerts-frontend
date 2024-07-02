@@ -6,7 +6,7 @@ export default function UsernameInUrlNotifier() {
   const username = params["username"];
 
   if (username) {
-    usernameInUrlStore.set(username);
+    usernameInUrlStore.set(username.toLowerCase());
   }
 
   return <></>;
