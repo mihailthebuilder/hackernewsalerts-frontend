@@ -3,12 +3,6 @@ type Props = {
   type: "comment_replies" | "post_comments";
 };
 
-function renderedText(input: string): string {
-  if (input.length < 100) return input;
-
-  return input.slice(0, 100) + "...";
-}
-
 function Alert(props: Props) {
   const title =
     props.type === "comment_replies"
@@ -26,14 +20,25 @@ function Alert(props: Props) {
           ? zeroItemsMessage
           : props.items.map((item, index) => (
               <div key={index}>
-                <a
-                  href={item.url}
-                  className="text-blue-600 hover:underline"
-                  target="_blank"
-                >
-                  {item.date_published.toDateString()}
-                </a>
-                <p>{renderedText(item.content_html)}</p>
+                <div>
+                  <a
+                    href={item.url}
+                    className="text-blue-600 hover:underline"
+                    target="_blank"
+                  >
+                    {item.date_published.toDateString()}
+                  </a>{" "}
+                  -{" "}
+                  <a
+                    href={item.author.url}
+                    className="text-blue-600 hover:underline"
+                    target="_blank"
+                  >
+                    {item.author.name}
+                  </a>
+                </div>
+
+                <div dangerouslySetInnerHTML={{ __html: item.content_html }} />
               </div>
             ))}
       </div>
