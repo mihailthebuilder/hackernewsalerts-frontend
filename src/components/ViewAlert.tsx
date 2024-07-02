@@ -3,6 +3,22 @@ type Props = {
   type: "comment_replies" | "post_comments";
 };
 
+function formatDate(date: Date): string {
+  const dateString = date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+
+  const timeString = date.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+
+  return `${dateString} ${timeString}`;
+}
+
 function Alert(props: Props) {
   const title =
     props.type === "comment_replies"
@@ -26,7 +42,7 @@ function Alert(props: Props) {
                     className="text-blue-600 hover:underline"
                     target="_blank"
                   >
-                    {item.date_published.toDateString()}
+                    {formatDate(item.date_published)}
                   </a>{" "}
                   -{" "}
                   <a
