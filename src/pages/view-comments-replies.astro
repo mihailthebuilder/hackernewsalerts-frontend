@@ -7,13 +7,14 @@ const title = "See all comments and replies on Hacker News.";
 const description =
   "View post comments and comment replies that you've received on Hacker News, all in one page.";
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const image = "/favicon.svg";
+const favicon = "/favicon.svg";
+const metaImage = "/meta.png";
 ---
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={favicon} />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
 
@@ -31,14 +32,14 @@ const image = "/favicon.svg";
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:site_name" content="Hacker News Alerts" />
-    <meta property="og:image" content={new URL(image, Astro.url)} />
+    <meta property="og:image" content={new URL(metaImage, Astro.url)} />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={Astro.url} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={new URL(image, Astro.url)} />
+    <meta property="twitter:image" content={new URL(metaImage, Astro.url)} />
 
     <!-- Analytics -->
     {
