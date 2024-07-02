@@ -31,9 +31,9 @@ function Alert(props: Props) {
                   className="text-blue-600 hover:underline"
                   target="_blank"
                 >
-                  {item.date}
+                  {item.date_published.toDateString()}
                 </a>
-                <p>{renderedText(item.text)}</p>
+                <p>{renderedText(item.content_html)}</p>
               </div>
             ))}
       </div>

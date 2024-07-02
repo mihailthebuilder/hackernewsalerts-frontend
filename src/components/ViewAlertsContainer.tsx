@@ -4,8 +4,8 @@ import Copy from "./Copy";
 
 import { useStore } from "@nanostores/react";
 import { usernameInUrlStore } from "./usernameInUrlStore";
-import { hnUsernameExists } from "./hnUsernameExists";
 import FormErrorMessage from "./FormErrorMessage";
+import { getNewCommentReplies, getNewPostComments } from "./hnApi";
 
 enum ApiResponseState {
   Initial,
@@ -32,33 +32,28 @@ function AlertsContainer({ url }: { url: string }) {
     try {
       setApiResponseState(ApiResponseState.IsLoading);
 
-      const usernameExists = await hnUsernameExists(username);
+      const oldestDateConsidered = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
-      if (!usernameExists) {
+      const postCommentsResult = await getNewPostComments(
+        username,
+        oldestDateConsidered
+      );
+
+      if (!postCommentsResult.user_found) {
         setApiResponseState(ApiResponseState.UsernameNotFound);
         return;
       }
 
-      const response = await fetch(
-        `${import.meta.env.PUBLIC_API_ENDPOINT}/alerts/${username}`,
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-          },
-        }
+      const commentReplies = await getNewCommentReplies(
+        username,
+        oldestDateConsidered
       );
 
-      if (response.status != 200) {
-        throw Error(
-          `Expected response status 200, got ${response.status}: ${response.statusText}`
-        );
-      }
-
-      const data = await response.json();
-
+      setAlertsReceived({
+        comment_replies: commentReplies,
+        post_comments: postCommentsResult.items,
+      });
       setApiResponseState(ApiResponseState.DataReceived);
-      setAlertsReceived(data);
     } catch (error) {
       setApiResponseState(ApiResponseState.Error);
       setApiError(error as Error);
