@@ -62,7 +62,7 @@ function AlertsContainer({ url }: { url: string }) {
 
   useEffect(() => {
     if ($usernameInUrlStore.length > 0) {
-      const newUsername = $usernameInUrlStore;
+      const newUsername = $usernameInUrlStore.toLowerCase();
       setUsername(newUsername);
       fetchAlertsForUsername(newUsername);
     }
@@ -82,7 +82,7 @@ function AlertsContainer({ url }: { url: string }) {
           className="border border-black w-full block rounded focus:ring-cyan-800 p-2"
           type="text"
           placeholder="type any HN username"
-          onChange={(event) => setUsername(event.target.value)}
+          onChange={(event) => setUsername(event.target.value.toLowerCase())}
           value={username}
           required
         />
