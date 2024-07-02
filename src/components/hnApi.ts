@@ -1,28 +1,15 @@
-type ItemAuthor = {
-  name: string;
-  url: string;
-};
-
-type HnItem = {
-  id: string;
-  title: string;
-  content_html: string;
-  url: string;
-  external_url: string;
-  date_published: Date;
-  author: ItemAuthor;
-};
-
 type GetNewPostCommentsResult = {
   user_found: boolean;
-  items: HnItem[];
+  items: Item[];
 };
+
+const BASE_URL = "https://hn-api-reverse-proxy.app.taralys.com";
 
 export async function getNewCommentReplies(
   username: string,
   oldestDateConsidered: Date
-): Promise<HnItem[]> {
-  const repliesUrl = `https://hnrss.org/replies.jsonfeed?id=${username}`;
+): Promise<Item[]> {
+  const repliesUrl = `${BASE_URL}/replies.jsonfeed?id=${username}`;
   const response = await fetch(repliesUrl);
 
   if (!response.ok) {
@@ -33,7 +20,7 @@ export async function getNewCommentReplies(
 
   const repliesResponseJson = await response.json();
 
-  const replies: HnItem[] = repliesResponseJson.items.map((reply: any) => ({
+  const replies: Item[] = repliesResponseJson.items.map((reply: Item) => ({
     ...reply,
     date_published: new Date(reply.date_published),
   }));
@@ -51,7 +38,7 @@ export async function getNewPostComments(
   username: string,
   oldestDateConsidered: Date
 ): Promise<GetNewPostCommentsResult> {
-  const postsUrl = `https://hnrss.org/submitted.jsonfeed?id=${username}`;
+  const postsUrl = `${BASE_URL}/submitted.jsonfeed?id=${username}`;
   const response = await fetch(postsUrl);
 
   if (!response.ok) {
@@ -69,21 +56,21 @@ export async function getNewPostComments(
 
   result.user_found = true;
 
-  const posts: HnItem[] = postsResponseJson.items.map((post: HnItem) => ({
+  const posts: Item[] = postsResponseJson.items.map((post: Item) => ({
     ...post,
     date_published: new Date(post.date_published),
   }));
 
   const oldestActivePostDate = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000);
   const postsOpenForDiscussion = posts.filter(
-    (post: HnItem) => post.date_published > oldestActivePostDate
+    (post: Item) => post.date_published > oldestActivePostDate
   );
 
   for (const post of postsOpenForDiscussion) {
     const parsedUrl = new URL(post.external_url);
     const postId = parsedUrl.searchParams.get("id");
 
-    const commentsUrl = `https://hnrss.org/item.jsonfeed?id=${postId}`;
+    const commentsUrl = `${BASE_URL}/item.jsonfeed?id=${postId}`;
     const commentsResponse = await fetch(commentsUrl);
     if (!response.ok) {
       throw Error(
@@ -97,8 +84,8 @@ export async function getNewPostComments(
       continue;
     }
 
-    const comments: HnItem[] = commentsResponseJson.items.map(
-      (comment: HnItem) => ({
+    const comments: Item[] = commentsResponseJson.items.map(
+      (comment: Item) => ({
         ...comment,
         date_published: new Date(comment.date_published),
       })

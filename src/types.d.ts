@@ -1,7 +1,16 @@
-type Item = {
+type ItemAuthor = {
+  name: string;
   url: string;
-  text: string;
-  date: string;
+};
+
+type Item = {
+  id: string;
+  title: string;
+  content_html: string;
+  url: string;
+  external_url: string;
+  date_published: Date;
+  author: ItemAuthor;
 };
 
 type Alerts = {
