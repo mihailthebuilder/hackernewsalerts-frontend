@@ -1,0 +1,15 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+type Props = { post: CollectionEntry<"blog"> };
+
+const { post } = Astro.props;
+---
+
+<li>
+  <div>
+    <a class="text-blue-800 hover:underline" href={`/blog/${post.slug}`}
+      >{post.data.title}</a
+    >
+  </div>
+</li>
