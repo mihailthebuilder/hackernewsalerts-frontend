@@ -1,7 +1,7 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
 
-// import BaseHead from "../../components/BaseHead.astro";
+import BaseHead from "../../components/BaseHead.astro";
 // import Footer from "../../components/Footer.astro";
 // import Disclaimer from "../../components/Disclaimer.astro";
 // import { SITE_TITLE } from "../../consts";
@@ -22,9 +22,7 @@ const { Content } = await post.render();
 ---
 
 <html lang="en">
-  <head>
-    <!-- <BaseHead title={post.data.title} description={post.data.description} /> -->
-  </head>
+  <BaseHead title={post.data.title} description={post.data.description} />
 
   <body class="max-w-prose mx-auto px-6 sm:px-8 bg-gray-100 font-roboto">
     <header>
