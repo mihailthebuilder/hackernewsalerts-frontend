@@ -1,11 +1,9 @@
 ---
+import "../../styles/global.css";
+
 import { type CollectionEntry, getCollection } from "astro:content";
 
 import BaseHead from "../../components/BaseHead.astro";
-// import Footer from "../../components/Footer.astro";
-// import Disclaimer from "../../components/Disclaimer.astro";
-// import { SITE_TITLE } from "../../consts";
-// import { formatDate } from "../../utils";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -26,24 +24,29 @@ const { Content } = await post.render();
 
   <body class="max-w-prose mx-auto px-6 sm:px-8 bg-gray-100">
     <header>
-      <nav class="py-5 flex justify-between">
-        <a href="/" class="font-bold text-xl text-black hover:no-underline"
-          >Hacker News Alerts
+      <nav class="py-5">
+        <a href="/">
+          <span class="block font-bold text-xl text-black"
+            >Hacker News Alerts</span
+          >
+          <span class="block"
+            >Email alerts for Hacker News comments and replies
+          </span>
         </a>
       </nav>
     </header>
     <hr class="border-t-1 border-gray-600 mb-8" />
     <main>
-      <section class="mb-8">
+      <section class="mb-6">
         <h1 class="text-3xl font-bold">{post.data.title}</h1>
       </section>
       <section class="blogpost-content">
         <Content />
       </section>
 
-      <hr class="border-t-1 border-gray-600 mt-10 mb-10" />
+      <hr class="border-t-1 border-gray-600 my-6" />
 
-      <p>
+      <p class="mb-20">
         Want to talk to me about this post? Hit me up <a
           href="https://linkedin.com/in/mihailmarian">on LinkedIn</a
         >; make sure you add a message in the connection invite. Alternatively,
@@ -51,7 +54,5 @@ const { Content } = await post.render();
         Include your email address if you'd like me to reply.
       </p>
     </main>
-
-    <!-- <Footer /> -->
   </body>
 </html>
