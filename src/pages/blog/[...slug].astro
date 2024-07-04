@@ -26,17 +26,16 @@ const { Content } = await post.render();
 
   <body class="max-w-prose mx-auto px-6 sm:px-8 bg-gray-100 font-roboto">
     <header>
-      <nav class="py-5">
-        <!-- <a href="/" class="font-bold text-xl text-black hover:no-underline"
-          >{SITE_TITLE}</a
-        > -->
+      <nav class="py-5 flex justify-between">
+        <a href="/" class="font-bold text-xl text-black hover:no-underline"
+          >Hacker News Alerts
+        </a>
       </nav>
     </header>
-    <hr class="border-t-1 border-gray-600 mb-10" />
+    <hr class="border-t-1 border-gray-600 mb-8" />
     <main>
       <section class="mb-8">
         <h1 class="text-3xl font-bold">{post.data.title}</h1>
-        <!-- <p class="text-sm mt-2">{formatDate(post.data.pubDate)}</p> -->
       </section>
       <section class="blogpost-content">
         <Content />
