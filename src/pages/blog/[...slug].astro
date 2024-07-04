@@ -1,0 +1,60 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+
+// import BaseHead from "../../components/BaseHead.astro";
+// import Footer from "../../components/Footer.astro";
+// import Disclaimer from "../../components/Disclaimer.astro";
+// import { SITE_TITLE } from "../../consts";
+// import { formatDate } from "../../utils";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: post,
+  }));
+}
+type Props = CollectionEntry<"blog">;
+
+const post = Astro.props;
+
+const { Content } = await post.render();
+---
+
+<html lang="en">
+  <head>
+    <!-- <BaseHead title={post.data.title} description={post.data.description} /> -->
+  </head>
+
+  <body class="max-w-prose mx-auto px-6 sm:px-8 bg-gray-100 font-roboto">
+    <header>
+      <nav class="py-5">
+        <!-- <a href="/" class="font-bold text-xl text-black hover:no-underline"
+          >{SITE_TITLE}</a
+        > -->
+      </nav>
+    </header>
+    <hr class="border-t-1 border-gray-600 mb-10" />
+    <main>
+      <section class="mb-8">
+        <h1 class="text-3xl font-bold">{post.data.title}</h1>
+        <!-- <p class="text-sm mt-2">{formatDate(post.data.pubDate)}</p> -->
+      </section>
+      <section class="blogpost-content">
+        <Content />
+      </section>
+
+      <hr class="border-t-1 border-gray-600 mt-10 mb-10" />
+
+      <p>
+        Want to talk to me about this post? Hit me up <a
+          href="https://linkedin.com/in/mihailmarian">on LinkedIn</a
+        >; make sure you add a message in the connection invite. Alternatively,
+        use <a href="https://forms.gle/tz3325pey9SjgV9X9">this hideous form</a>.
+        Include your email address if you'd like me to reply.
+      </p>
+    </main>
+
+    <!-- <Footer /> -->
+  </body>
+</html>
