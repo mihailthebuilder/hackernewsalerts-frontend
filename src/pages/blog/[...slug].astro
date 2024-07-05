@@ -1,0 +1,57 @@
+---
+import "../../styles/global.css";
+
+import { type CollectionEntry, getCollection } from "astro:content";
+
+import BaseHead from "../../components/BaseHead.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: post,
+  }));
+}
+type Props = CollectionEntry<"blog">;
+
+const post = Astro.props;
+
+const { Content } = await post.render();
+---
+
+<html lang="en">
+  <BaseHead title={post.data.title} description={post.data.description} />
+
+  <body class="max-w-prose mx-auto px-6 sm:px-8 bg-gray-100">
+    <header>
+      <nav class="py-5">
+        <a href="/">
+          <span class="block font-bold text-[1.15rem] text-black"
+            >Hacker News Alerts</span
+          >
+          <span class="block text-[0.9rem]"
+            >Email alerts for HN comments and replies
+          </span>
+        </a>
+      </nav>
+    </header>
+    <hr class="border-t-1 border-gray-600 mb-8" />
+    <main>
+      <section class="mb-6">
+        <h1 class="text-3xl font-bold">{post.data.title}</h1>
+      </section>
+      <section class="blogpost-content">
+        <Content />
+      </section>
+
+      <hr class="border-t-1 border-gray-600 my-6" />
+
+      <p class="mb-16">
+        Want to see more of these fabulous posts? Check out the <a
+          href="/"
+          class="underline inline-block">landing page</a
+        >.
+      </p>
+    </main>
+  </body>
+</html>
