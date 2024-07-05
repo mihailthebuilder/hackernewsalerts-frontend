@@ -1,6 +1,9 @@
 ---
+import { getCollection } from "astro:content";
+
 import SetAlert from "../components/SetAlert";
 import Contact from "../components/Contact.astro";
+import Post from "../components/Post.astro";
 
 const title = "Hacker News alerts for comments and replies";
 const description =
@@ -8,6 +11,10 @@ const description =
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const favicon = "/favicon.svg";
 const metaImage = "/meta.png";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
 ---
 
 <html lang="en">
@@ -115,6 +122,10 @@ const metaImage = "/meta.png";
           </p>
         </section>
         <Contact />
+        <section class="mb-6">
+          <h2 class="text-2xl font-bold mb-3">Blog</h2>
+          <ul class="space-y-1">{posts.map((post) => <Post post={post} />)}</ul>
+        </section>
       </main>
     </body>
   </body>
