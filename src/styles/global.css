@@ -2,4 +2,12 @@
   p {
     margin-bottom: 1em;
   }
+
+  a {
+    @apply text-blue-700 hover:underline;
+  }
+
+  img {
+    @apply shadow-lg rounded-md border border-gray-600;
+  }
 }
