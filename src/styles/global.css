@@ -10,4 +10,8 @@
   img {
     @apply shadow-lg rounded-md border border-gray-600;
   }
+
+  h2 {
+    @apply text-xl font-bold my-5
+  }
 }
