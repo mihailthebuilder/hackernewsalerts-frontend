@@ -3,7 +3,7 @@ type GetNewPostCommentsResult = {
   items: Item[];
 };
 
-const BASE_URL = "https://hn-api-reverse-proxy.app.taralys.com";
+const BASE_URL = import.meta.env.PUBLIC_HNRSS_REVERSE_PROXY;
 
 export async function getNewCommentReplies(
   username: string,
