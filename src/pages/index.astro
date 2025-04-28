@@ -4,6 +4,7 @@ import { getCollection } from "astro:content";
 import SetAlert from "../components/SetAlert";
 import Contact from "../components/Contact.astro";
 import Post from "../components/Post.astro";
+import OpenSource from "../components/OpenSource.astro";
 
 const title = "Hacker News alerts for comments and replies";
 const description =
@@ -100,19 +101,33 @@ const posts = (await getCollection("blog")).sort(
           </div>
           <SetAlert client:load />
         </section>
+
         <section class="mb-6">
+          <h2 class="text-2xl font-bold mb-3">
+            Don't want to provide your email?
+          </h2>
+
           <p class="mb-4">
-            Don't want to provide your email? <a
-              class="underline"
-              href="/view-comments-replies">I made an online tool</a
+            <a class="underline" href="/view-comments-replies"
+              >I made an online tool</a
             > that lets you view all the comments and replies you've received over
             the past 24 hours.
           </p>
         </section>
+        <section id="#blog" class="mb-6">
+          <h2 class="text-2xl font-bold mb-3">How to unsubscribe?</h2>
+          <ul class="space-y-2">
+            Reply to one of the email alerts stating that you'd like to
+            unsubscribe.
+          </ul>
+        </section>
+        <OpenSource />
         <Contact />
         <section id="#blog" class="mb-6">
           <h2 class="text-2xl font-bold mb-3">Blog</h2>
-          <ul class="space-y-2">{posts.map((post) => <Post post={post} />)}</ul>
+          <ul class="space-y-2">
+            {posts.map((post) => <Post post={post} />)}
+          </ul>
         </section>
       </main>
     </body>
