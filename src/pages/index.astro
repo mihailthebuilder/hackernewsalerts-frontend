@@ -69,7 +69,7 @@ const posts = (await getCollection("blog")).sort(
               if (code) {
                 async function confirmEmail(verificationCode: string) {
                   const response = await fetch(
-                    `${import.meta.env.PUBLIC_API_ENDPOINT}/verify/${verificationCode}`,
+                    `https://api.hackernewsalerts.com/api/verify/${verificationCode}`,
                     { method: "POST" }
                   );
 

@@ -32,7 +32,7 @@ export default function SetAlert() {
       }
 
       const response = await fetch(
-        `${import.meta.env.PUBLIC_API_ENDPOINT}/signup`,
+        `https://api.hackernewsalerts.com/api/signup`,
         {
           method: "POST",
           headers: {

@@ -3,7 +3,7 @@ type GetNewPostCommentsResult = {
   items: Item[];
 };
 
-const BASE_URL = import.meta.env.PUBLIC_HNRSS_REVERSE_PROXY;
+const BASE_URL = "https://proxy.hackernewsalerts.com";
 
 export async function getNewCommentReplies(
   username: string,
