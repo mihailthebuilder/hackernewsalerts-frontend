@@ -3,7 +3,7 @@ type GetNewPostCommentsResult = {
   items: Item[];
 };
 
-const BASE_URL = "https://proxy.hackernewsalerts.com";
+const BASE_URL = "https://prx.hackernewsalerts.com";
 
 export async function getNewCommentReplies(
   username: string,
